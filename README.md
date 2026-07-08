@@ -6,4 +6,5 @@ $ chmod +x setup.sh
 $ ./setup.sh
 
 # Windows
-> ./setup.bat
+管理者権限でコマンドプロンプトを起動
+$ ./setup.bat
