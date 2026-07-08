@@ -1,7 +1,8 @@
 Install .claude files
 
 # Linux
-./setup.sh
+$ chmod +x setup.sh
+$ ./setup.sh
 
 # Windows
-./setup.bat
+> ./setup.bat
