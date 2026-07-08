@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "env": {
+      "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+      "DISABLE_COST_WARNINGS": "0",
+      "DISABLE_ERROR_REPORTING": "1"
+    },
+    "permissions": {
+      "deny": [
+        "Bash(rm -rf *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(git push --force)",
+      "Bash(git reset --hard)",
+      "Bash(chmod 777 *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+      ],
+      "defaultMode": "acceptEdits"
+    },
+    "allowedDomains": [
+      "github.com",
+    "registry.npmjs.org",
+    "api.anthropic.com",
+    "go.jp",
+    "hatena.blog",
+    "hatenablog.com",
+    "hatena.ne.jp"
+    ],
+    "sandbox": {
+      "enabled": true,
+      "autoAllowBashIfSandboxed": true,
+      "filesystem": {
+        "denyRead": ["~/.aws/credentials", "~/.ssh"]
+      }
+    },
+    "hooks": {
+      "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [{
+          "type": "command",
+          "command": ".claude/hooks/validate-command.sh"
+        }]
+      }
+      ],
+      "Stop": [
+      {
+        "hooks": [
+        {
+          "type": "command",
+          "command": "echo '⏰ /save-session で作業ログを保存しましたか？'"
+        }
+        ]
+      }
+      ]
+    },
+
+    "model": "sonnet",
+    "enabledPlugins": {
+      "claude-code-setup@claude-plugins-official": true
+    },
+    "outputStyle": "Concise",
+    "language": "日本語",
+    "autoCompactEnabled": true,
+    "remoteControlAtStartup": true,
+    "voiceEnabled": true,
+    "agentPushNotifEnabled": true
+}
