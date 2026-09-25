@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-    "env": {
-      "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-      "DISABLE_COST_WARNINGS": "0",
-      "DISABLE_ERROR_REPORTING": "1"
-    },
-    "permissions": {
-      "deny": [
-        "Bash(rm -rf *)",
+  "env": {
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "DISABLE_COST_WARNINGS": "0",
+    "DISABLE_ERROR_REPORTING": "1"
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm -rf *)",
       "Bash(curl *)",
       "Bash(wget *)",
       "Bash(git push --force)",
@@ -20,55 +20,82 @@
       "Read(**/*.key)",
       "Bash(curl:*)",
       "Bash(wget:*)"
-      ],
-      "defaultMode": "acceptEdits"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/validate-command.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '⏰ /save-session で作業ログを保存しましたか？'"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "cat | bash ~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "claude-code-setup@claude-plugins-official": false,
+    "humanizer@humanizer": true
+  },
+  "extraKnownMarketplaces": {
+    "cclens": {
+      "source": {
+        "source": "github",
+        "repo": "lambdalisue/cclens"
+      }
     },
-    "allowedDomains": [
-      "github.com",
+    "humanizer": {
+      "source": {
+        "source": "github",
+        "repo": "blader/humanizer"
+      }
+    }
+  },
+  "outputStyle": "Concise",
+  "language": "日本語",
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "filesystem": {
+      "allowWrite": [
+        "~/.notebooklm"
+      ],
+      "denyRead": [
+        "~/.aws/credentials",
+        "~/.ssh"
+      ]
+    }
+  },
+  "effortLevel": "high",
+  "autoCompactEnabled": true,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "voiceEnabled": true,
+  "allowedDomains": [
+    "github.com",
     "registry.npmjs.org",
     "api.anthropic.com",
     "go.jp",
     "hatena.blog",
     "hatenablog.com",
     "hatena.ne.jp"
-    ],
-    "sandbox": {
-      "enabled": true,
-      "autoAllowBashIfSandboxed": true,
-      "filesystem": {
-        "denyRead": ["~/.aws/credentials", "~/.ssh"]
-      }
-    },
-    "hooks": {
-      "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [{
-          "type": "command",
-          "command": ".claude/hooks/validate-command.sh"
-        }]
-      }
-      ],
-      "Stop": [
-      {
-        "hooks": [
-        {
-          "type": "command",
-          "command": "echo '⏰ /save-session で作業ログを保存しましたか？'"
-        }
-        ]
-      }
-      ]
-    },
-
-    "model": "sonnet",
-    "enabledPlugins": {
-      "claude-code-setup@claude-plugins-official": true
-    },
-    "outputStyle": "Concise",
-    "language": "日本語",
-    "autoCompactEnabled": true,
-    "remoteControlAtStartup": true,
-    "voiceEnabled": true,
-    "agentPushNotifEnabled": true
+  ]
 }
